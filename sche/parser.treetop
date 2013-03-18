@@ -1,0 +1,96 @@
+#grammar lifted from formal spec @
+#  -- http://www.scheme.com/tspl2d/grammar.html
+#  -- http://thingsaaronmade.com/blog/a-quick-intro-to-writing-a-parser-using-treetop.html
+# ^^ 
+
+grammar Scheme
+  include SchemeNodes
+
+  rule expression
+    space? nil space?          <Expr> /
+    space? bool space?         <Expr> /
+    space? fancyquote space?   <Expr> /
+    space? identifier space?   <Expr> /
+    space? string space?       <Expr> /
+    space? integer space?      <Expr> /
+    space? '(' body ')' space? <Expr>
+  end
+
+  rule body
+    (expression / keyword / identifier / quote / 
+     fancyquote  / operator / integer / space / string)* <Body>
+  end
+
+  rule keyword
+    'lambda' <Keyword> / 
+    'define' <Keyword> /
+    'if'     <Keyword>
+  end
+
+  rule integer
+    [0-9]+ <IntLit>
+  end
+
+  # TODO: this could use some sprucing up
+  rule string
+     '"' ( [^\"\\] / ('\\' [\"\\]) )* '"' <StrLit>
+  end
+
+  rule nil
+    "'nil" <Nil>
+  end 
+
+  rule bool
+    "#t" <BoolVal> / 
+    "#f" <BoolVal>
+  end
+
+  rule identifier
+    [a-z] [a-zA-Z0-9?_]* <Ident>
+  end
+
+  # TODO: add modulo. this will also require argument-list
+  #       checking in the broader sense
+  rule operator
+    [-+*/<>] <Operator>
+  end
+
+  rule space
+    [\s]+
+  end
+
+  rule quote
+    'quote' <Quote>
+  end
+
+  rule fancyquote
+    "'" expression <FancyQuote>
+  end 
+
+
+end
+
+
+
+
+#TODO: when lambda and define don't match (invalid paramlist), the whole thing just gets
+#       interpreted as an expression...which, frustratingly, produces the correct output
+#       should be noted, though, that this part of the grammar works correctly for correct input
+#       I may have just mega-simplified this by just treating EVERYTHING as an expression.
+#       There's either a lesson here or I am using extremely poor design practices...Both?
+  # rule lambda
+  #   'lambda' params expression <Lambda>
+  # end
+
+  # rule define 
+  #   'define' params expression <Define>
+  # end
+
+  # rule params
+  #    space? '(' plist ')' space? <Params>
+  # end
+
+  # rule plist
+  #   (identifier / space)* <Plist>
+  # end
+

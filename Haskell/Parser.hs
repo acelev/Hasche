@@ -4,7 +4,8 @@ import Text.ParserCombinators.Parsec
 import Text.Parsec.Language (emptyDef, haskellDef)
 import qualified Text.Parsec.Token as P
 
-def = emptyDef { P.reservedNames = ["quote", "if", "define", "let", "lambda", "#t", "#f"],
+def = emptyDef { P.reservedNames = ["quote", "if", "define",
+                                    "let", "lambda", "#t", "#f"],
                  P.opStart = oneOf "*/-+<>e",
                  P.opLetter = oneOf "*/-+<>eq?="}
 
@@ -26,7 +27,7 @@ exprP = do
        where e = (specialP <|> opP <|> symbolP <|> valP <|>  exprP)
 
 specialP :: Parser SchVal
-specialP = defineP <|>  letP <|> ifP <|> lambdaP <|> quoteP 
+specialP = defineP <|>  letP <|> ifP <|> lambdaP <|> quoteP
 
 defineP :: Parser SchVal
 defineP = do

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby 
-#Scheme Intepreter
-#Author Oren Leiman (oleiman@ucsc)
+# - sche.rb - a tiny implementation of part of Scheme
+# Author: Oren Leiman (oleiman@ucsc.edu)
+
 require 'treetop'
 require_relative 'parser.rb'
 
@@ -68,8 +69,6 @@ def local_env (params, args, env)
   Hash[params.zip(args)].merge(env) { |k,v1,v2| v1 }
 end
 
-# TODO: abstract most of this out into a module(?) this file is
-#       getting too large anyway.
 def evalSch(expr, env)
   return expr      if atom?(expr)
   if variable?(expr) 
@@ -105,7 +104,12 @@ def evalSch(expr, env)
       else
         evalSch(altern, env)
       end
-  else # procedure call
+  when :set
+    _, var, stmt = *expr
+    if env[var]
+      env[var] = evalSch(stmt, env) 
+    else raise NameError, "#{var} is not defined" end
+  else # apply (no need for a separate function b/c ruby is awesome)
     proc = list?(car(expr)) ? evalSch(car(expr), env) : env[car(expr)]
     args = cdr(expr).map { |a| evalSch(a, env) }
     return proc.call(*args) unless proc.nil?
@@ -126,7 +130,7 @@ def repl(prompt = '/~(8)~\ ')
       if value.is_a?(Proc) then puts "lambda" else emit(value) end
     rescue Exception => e
       puts e.message
-      puts "something went wrong, somewhere..."
+      #puts "something went wrong, somewhere..."
     end
   end
 end

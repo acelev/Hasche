@@ -1,8 +1,7 @@
--- Hasche
--- Scheme interpeter
--- Authors: 
--- Ace Levenberg (llevenbe@ucsc.edu)
--- Oren Leiman (oleiman@ucsc.edu)
+--Scheme interpeter 
+--Authors:
+--Ace Levenberg (llevenbe@ucsc.edu)
+--Oren Leiman (oleiman@ucsc.edu)
 
 import System.IO
 import Parser (statementP)

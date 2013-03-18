@@ -24,7 +24,8 @@ grammar Scheme
   rule keyword
     'lambda' <Keyword> / 
     'define' <Keyword> /
-    'if'     <Keyword>
+    'if'     <Keyword> / 
+    'set'    <Keyword> 
   end
 
   rule integer

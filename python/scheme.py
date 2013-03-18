@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-#Scheme interpeter
-#Author: Ace Levenberg (llevenbe@ucsc.edu)
+#Author
+# Ace Levenberg (llevenbe@ucsc.edu)
 
 import operator as op
 import sys

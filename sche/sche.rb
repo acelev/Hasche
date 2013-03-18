@@ -135,14 +135,15 @@ def repl(prompt = '/~(8)~\ ')
 end
 
 def emit(val)
+  print "=> "
   if val.is_a?(Proc)
-    puts "lambda"
+    print "lambda\n"
   elsif list?(val)
     print "("
     val.each { |i| if i != val[-1] then print "#{i} " else print "#{i}" end}
     print ")\n"
   else
-    print "=> #{val}\n"
+    print "#{val}\n"
   end
 end
 
@@ -150,7 +151,6 @@ end
 if ARGV[0] == '-i'
   repl()
 elsif ARGV.size == 1 and ARGV[0] != "spec"
-  print "=> "
   parse = Parser.parse(ARGV[0])
   emit(evalSch(parse, $global_env))
 end

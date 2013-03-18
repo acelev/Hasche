@@ -32,7 +32,6 @@ grammar Scheme
     [0-9]+ <IntLit>
   end
 
-  # TODO: this could use some sprucing up
   rule string
      '"' ( [^\"\\] / ('\\' [\"\\]) )* '"' <StrLit>
   end
@@ -50,8 +49,6 @@ grammar Scheme
     [a-z] [a-zA-Z0-9?_]* <Ident>
   end
 
-  # TODO: add modulo. this will also require argument-list
-  #       checking in the broader sense
   rule operator
     [-+*/<>] <Operator>
   end

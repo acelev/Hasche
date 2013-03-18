@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby 
 # - sche.rb - a tiny implementation of part of Scheme
 # Author: Oren Leiman (oleiman@ucsc.edu)
 
@@ -127,17 +126,18 @@ def repl(prompt = '/~(8)~\ ')
     begin
       parse = Parser.parse(line)
       value = evalSch(parse, $global_env)
-      if value.is_a?(Proc) then puts "lambda" else emit(value) end
+#      if value.is_a?(Proc) then puts "lambda" 
+      emit(value)
     rescue Exception => e
       puts e.message
-      #puts "something went wrong, somewhere..."
     end
   end
 end
 
 def emit(val)
-  # add some code to process expressions for output...
-  if list?(val)
+  if val.is_a?(Proc)
+    puts "lambda"
+  elsif list?(val)
     print "("
     val.each { |i| if i != val[-1] then print "#{i} " else print "#{i}" end}
     print ")\n"
@@ -152,6 +152,6 @@ if ARGV[0] == '-i'
 elsif ARGV.size == 1 and ARGV[0] != "spec"
   print "=> "
   parse = Parser.parse(ARGV[0])
-  p evalSch(parse, $global_env) 
+  emit(evalSch(parse, $global_env))
 end
 

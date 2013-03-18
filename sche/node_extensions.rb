@@ -68,30 +68,3 @@ module SchemeNodes
   end
 
 end
-
-
-
-  # class Lambda < Treetop::Runtime::SyntaxNode
-  #   def to_lisp
-  #     [:lambda] + self.elements.map { |e| e.to_lisp }
-  #   end
-  # end
-
-  # class Define < Treetop::Runtime::SyntaxNode
-  #   def to_lisp
-  #     [:define] + self.elements.map { |e| e.to_lisp }
-  #   end
-  # end
-
-  # class Params < Treetop::Runtime::SyntaxNode
-  #   def to_lisp
-  #     self.elements[0].to_lisp
-  #   end
-  # end
-
-  # class Plist < Treetop::Runtime::SyntaxNode
-  #   def to_lisp
-  #     p self.elements
-  #     self.elements.map { |e| e.to_lisp}
-  #   end
-  # end
